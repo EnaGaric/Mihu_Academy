@@ -4,12 +4,16 @@ public class Game
 {
     private Player player = new Player();
 
+    private bool isRunning = true;
+
+    private GameState currentState;
+
     public void Start()
     {
-        Console.WriteLine("Welcome to Mihu Academy!");
+        Console.WriteLine("Welcome to the Academy!");
 
         CreatePlayer();
-
+        currentState = GameState.Playing;
         GameLoop();
     }
 
@@ -23,11 +27,11 @@ public class Game
 
     private void GameLoop()
     {
-        while (true)
+        while (isRunning)
         {
-            Console.WriteLine($"\n-- DAY {player.Day} --");
-
            ShowMenu();
+           ShowDayHeader();
+
             string choice = Console.ReadLine() ?? "";
 
             switch (choice)
@@ -49,7 +53,8 @@ public class Game
                     break;
 
                 case "5":
-                    return;
+                    isRunning = false;
+                    break;
 
                 default:
                     Console.WriteLine("Invalid choice.");
@@ -96,6 +101,8 @@ public class Game
         player.Day++;
 
         Console.WriteLine("You slept.");
+        if (player.Entropy > 100)
+        player.Entropy = 100;
     }
 
     private void ShowStats()
@@ -105,5 +112,12 @@ public class Game
         Console.WriteLine($"Entropy: {player.Entropy}");
         Console.WriteLine($"Money: {player.Money}");
         Console.WriteLine($"Day: {player.Day}");
+    }
+
+    private void ShowDayHeader()
+    {
+    Console.WriteLine($"\n====================");
+    Console.WriteLine($"       DAY {player.Day}");
+    Console.WriteLine("====================");
     }
 }
