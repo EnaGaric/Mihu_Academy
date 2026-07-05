@@ -1,39 +1,36 @@
-using System;
-using System.Collections.Generic;
-
 public class RoommateSelectionScene : IScene
 {
-    public List<Character> Options { get; private set; }
+    private CharacterManager characterManager;
+    private Player player;
 
-    public RoommateSelectionScene(CharacterManager characterManager)
+    public RoommateSelectionScene(CharacterManager characterManager, Player player)
     {
-        Options = characterManager.GetRoommates();
+        this.characterManager = characterManager;
+        this.player = player;
     }
 
-    public int Run()
+    public IScene Run()
     {
-        Console.WriteLine("\n=== Choose your roommate ===");
+        Console.WriteLine("Choose your roommate:");
 
-        for (int i = 0; i < Options.Count; i++)
+        var characters = characterManager.GetRoommates();
+
+        for (int i = 0; i < characters.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {Options[i].Name}");
-            Console.WriteLine($"   {Options[i].Description}\n");
+            Console.WriteLine($"{i}. {characters[i].Name}");
         }
 
-        Console.WriteLine($"Choose 1-{Options.Count}");
+        int choice = int.Parse(Console.ReadLine() ?? "0");
 
-        string input = Console.ReadLine();
+        Character selected = characters[choice];
 
-        int choice;
+        selected.isRoomate = true;
 
-        if (!int.TryParse(input, out choice))
-            return 0;
+        player.RoommateChoice = selected.Type;
+        player.ActiveRoute = selected.Type;
 
-        choice -= 1;
+        Console.WriteLine($"You chose: {selected.Name}");
 
-        if (choice < 0 || choice >= Options.Count)
-            return 0;
-
-        return choice;
+        return null;
     }
 }

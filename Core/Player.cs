@@ -11,4 +11,6 @@ public class Player
     public int Day = 1;
     public TimeOfDay Time = TimeOfDay.Morning;
     public CharacterType RoommateChoice = CharacterType.None;
+    public int RoommateAffection = 0;
+    public CharacterType ActiveRoute = CharacterType.None;
 }

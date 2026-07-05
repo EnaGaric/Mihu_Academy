@@ -1,5 +1,3 @@
-using System;
-
 public class IntroScene : IScene
 {
     private Character mihu;
@@ -11,7 +9,7 @@ public class IntroScene : IScene
         this.dialogueManager = dialogueManager;
     }
 
-    public int Run()
+    public IScene Run()
     {
         Dialogue dialogue = new Dialogue();
 
@@ -24,6 +22,8 @@ public class IntroScene : IScene
         dialogue.AddChoice("Who are you?", 1);
         dialogue.AddChoice("Stay silent.", 2);
 
-        return dialogueManager.Play(dialogue);
+        dialogueManager.Play(dialogue);
+
+        return null; // ili next scene kasnije
     }
 }
