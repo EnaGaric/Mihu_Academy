@@ -8,4 +8,5 @@ public class Player
     public int Entropy = 80;
     public int Money = 200;
     public int Day = 1;
+    public TimeOfDay Time = TimeOfDay.Morning;
 }

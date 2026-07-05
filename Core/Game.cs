@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 
 public class Game
 {
     private Player player = new Player();
-
+    private ActionManager actionManager = new ActionManager();
+    private CharacterManager characterManager = new CharacterManager();
     private bool isRunning = true;
 
     private GameState currentState;
@@ -23,14 +25,26 @@ public class Game
         player.Name = Console.ReadLine() ?? "";
 
         Console.WriteLine($"Welcome, {player.Name}!");
+
+        MeetMihu();
+        currentState = GameState.Playing;
     }
 
+    private void MeetMihu()
+    {
+        Character mihu = characterManager.GetCharacter("Mihu Kashino");
+        Console.WriteLine($"You met {mihu.Name}.");
+
+        mihu.Friendship += 10;
+
+        characterManager.ShowCharacters();
+    }
     private void GameLoop()
     {
         while (isRunning)
         {
-           ShowMenu();
            ShowDayHeader();
+           ShowMenu();
 
             string choice = Console.ReadLine() ?? "";
 
@@ -70,14 +84,12 @@ public class Game
         player.Entropy -=5;
 
         Console.WriteLine("You studied with Mihu.");
+        AdvanceTime();
     }
 
     private void ShowMenu()
     {
-            Console.WriteLine("1. Study with Mihu");
-            Console.WriteLine("2. Work");
-            Console.WriteLine("3. Socialize");
-            Console.WriteLine("4. Sleep");
+            actionManager.ShowActions();
             Console.WriteLine("5. Exit");
     }
     private void Work()
@@ -86,6 +98,7 @@ public class Game
         player.Entropy -= 10;
 
         Console.WriteLine("You worked.");
+        AdvanceTime();
     }
 
     private void Socialize()
@@ -93,16 +106,17 @@ public class Game
         player.Entropy += 15;
 
         Console.WriteLine("You socialized.");
+        AdvanceTime();
     }
 
     private void Sleep()
     {
         player.Entropy += 10;
-        player.Day++;
 
         Console.WriteLine("You slept.");
         if (player.Entropy > 100)
         player.Entropy = 100;
+        AdvanceTime();
     }
 
     private void ShowStats()
@@ -118,6 +132,30 @@ public class Game
     {
     Console.WriteLine($"\n====================");
     Console.WriteLine($"       DAY {player.Day}");
+    Console.WriteLine($"{player.Time}");
     Console.WriteLine("====================");
     }
+
+    private void AdvanceTime()
+    {
+        switch(player.Time)
+        {
+            case TimeOfDay.Morning:
+            player.Time = TimeOfDay.Afternoon;
+            break;
+        
+            case TimeOfDay.Afternoon:
+            player.Time = TimeOfDay.Evening;
+            break;
+
+            case TimeOfDay.Evening:
+            player.Time = TimeOfDay.Night;
+            break;
+
+            case TimeOfDay.Night:
+            player.Time = TimeOfDay.Morning;
+            player.Day++;
+            break;
+        }
+    }   
 }
