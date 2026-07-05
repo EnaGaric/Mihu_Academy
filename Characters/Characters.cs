@@ -6,7 +6,9 @@ public class Character
     public int Friendship = 0;
     public bool isRoomate = false;
     public bool Romance = false;
-    public string Id = ""; //engine za pronalaženje likova
+    public string Id = "";
     public string Description = "";
     public bool Met = false;
+
+    public CharacterType Type = CharacterType.None;
 }
