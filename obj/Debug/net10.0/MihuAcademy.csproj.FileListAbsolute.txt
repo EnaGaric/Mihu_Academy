@@ -3,3 +3,13 @@ C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.AssemblyInfoInputs.cache
 C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.AssemblyInfo.cs
 C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.csproj.CoreCompileInputs.cache
 C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.sourcelink.json
+C:\NewFolder\MihuAcademy\bin\Debug\net10.0\MihuAcademy.exe
+C:\NewFolder\MihuAcademy\bin\Debug\net10.0\MihuAcademy.deps.json
+C:\NewFolder\MihuAcademy\bin\Debug\net10.0\MihuAcademy.runtimeconfig.json
+C:\NewFolder\MihuAcademy\bin\Debug\net10.0\MihuAcademy.dll
+C:\NewFolder\MihuAcademy\bin\Debug\net10.0\MihuAcademy.pdb
+C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.dll
+C:\NewFolder\MihuAcademy\obj\Debug\net10.0\refint\MihuAcademy.dll
+C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.pdb
+C:\NewFolder\MihuAcademy\obj\Debug\net10.0\MihuAcademy.genruntimeconfig.cache
+C:\NewFolder\MihuAcademy\obj\Debug\net10.0\ref\MihuAcademy.dll
