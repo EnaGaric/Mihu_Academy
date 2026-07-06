@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 public class RelationshipManager
 {
-    private Dictionary<CharacterType, Relationship> relationships =
-        new Dictionary<CharacterType, Relationship>();
+    private Dictionary<CharacterType, Relationship> relationships = new();
 
     public RelationshipManager()
     {
-        foreach (CharacterType type in Enum.GetValues(typeof(CharacterType)))
+        foreach (CharacterType type in Enum.GetValues<CharacterType>())
         {
-            relationships[type] = new Relationship();
+            relationships[type] = new Relationship
+            {
+                Character = type
+            };
         }
     }
 

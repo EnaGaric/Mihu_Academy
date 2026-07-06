@@ -10,8 +10,13 @@ public class SceneManager
         {
             SceneResult result = current.Run();
 
+            if (!string.IsNullOrWhiteSpace(result.Message))
+            {
+                Console.WriteLine(result.Message);
+            }
+
             if (result.EndGame)
-                break;
+                return;
 
             current = result.NextScene;
         }

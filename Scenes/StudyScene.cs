@@ -1,6 +1,11 @@
+using System;
+
 public class StudyScene : RouteScene
 {
-    public StudyScene(Player player) : base(player) {}
+    public StudyScene(GameContext context)
+        : base(context)
+    {
+    }
 
     public override SceneResult Run()
     {
@@ -18,9 +23,6 @@ public class StudyScene : RouteScene
         if (IsRoute(CharacterType.RubyRei))
             Console.WriteLine("Ruby keeps distracting you with small talk.");
 
-        return new SceneResult
-        {
-            NextScene = null
-        };
+        return SceneResult.Continue();
     }
 }

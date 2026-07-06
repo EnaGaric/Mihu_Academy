@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MihuAcademy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9279f401ff17898958a03542704f31facccfe561")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b29fdf787da558596fb803b79274ed25d000d02")]
 [assembly: System.Reflection.AssemblyProductAttribute("MihuAcademy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MihuAcademy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

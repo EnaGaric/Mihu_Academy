@@ -1,19 +1,17 @@
-public class RoommateSelectionScene : IScene
-{
-    private CharacterManager characterManager;
-    private Player player;
+using System;
 
-    public RoommateSelectionScene(CharacterManager characterManager, Player player)
+public class RoommateSelectionScene : RouteScene
+{
+    public RoommateSelectionScene(GameContext context)
+        : base(context)
     {
-        this.characterManager = characterManager;
-        this.player = player;
     }
 
-    public SceneResult Run()
+    public override SceneResult Run()
     {
         Console.WriteLine("Choose your roommate:");
 
-        var characters = characterManager.GetRoommates();
+        var characters = context.Characters.GetRoommates();
 
         for (int i = 0; i < characters.Count; i++)
         {
@@ -24,15 +22,13 @@ public class RoommateSelectionScene : IScene
 
         Character selected = characters[choice];
 
-        selected.isRoomate = true;
-        player.RoommateChoice = selected.Type;
-        player.ActiveRoute = selected.Type;
+        context.Player.RoommateChoice = selected.Type;
+        context.Player.ActiveRoute = selected.Type;
+
+        context.Flags.Set(GameFlag.ChoseRoommate);
 
         Console.WriteLine($"You chose: {selected.Name}");
 
-        return new SceneResult
-        {
-            NextScene = null
-        };
+        return SceneResult.Continue();
     }
 }

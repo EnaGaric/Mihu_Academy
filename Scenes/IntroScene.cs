@@ -1,18 +1,16 @@
 using System;
 
-public class IntroScene : IScene
+public class IntroScene : RouteScene
 {
-    private Character mihu;
-    private DialogueManager dialogueManager;
-
-    public IntroScene(Character mihu, DialogueManager dialogueManager)
+    public IntroScene(GameContext context)
+        : base(context)
     {
-        this.mihu = mihu;
-        this.dialogueManager = dialogueManager;
     }
 
-    public SceneResult Run()
+    public override SceneResult Run()
     {
+        Character mihu = GetCharacter("Mihu Kashino");
+
         Dialogue dialogue = new Dialogue();
 
         dialogue.AddLine(mihu, "Good morning.");
@@ -24,11 +22,10 @@ public class IntroScene : IScene
         dialogue.AddChoice("Who are you?", 1);
         dialogue.AddChoice("Stay silent.", 2);
 
-        dialogueManager.Play(dialogue);
+        context.Dialogue.Play(dialogue);
 
-        return new SceneResult
-        {
-            NextScene = null
-        };
+        SetFlag(GameFlag.MetMihu);
+
+        return SceneResult.Continue();
     }
 }

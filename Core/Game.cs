@@ -2,17 +2,22 @@ using System;
 
 public class Game
 {
-    private Player player = new Player();
-
-    private CharacterManager characterManager = new CharacterManager();
-    private SceneManager sceneManager = new SceneManager();
-    private DialogueManager dialogueManager = new DialogueManager();
-    private RelationshipManager relationshipManager = new RelationshipManager();
     private bool isRunning = true;
+
+    private GameContext context;
 
     public void Start()
     {
         Console.WriteLine("Welcome to the Academy!");
+
+        context = new GameContext(
+            new Player(),
+            new CharacterManager(),
+            new DialogueManager(),
+            new SceneManager(),
+            new RelationshipManager(),
+            new FlagManager()
+        );
 
         CreatePlayer();
 
@@ -26,24 +31,19 @@ public class Game
     private void CreatePlayer()
     {
         Console.Write("Enter your name: ");
-        player.Name = Console.ReadLine() ?? "";
+        context.Player.Name = Console.ReadLine() ?? "";
 
-        Console.WriteLine($"Welcome, {player.Name}!");
+        Console.WriteLine($"Welcome, {context.Player.Name}!");
     }
 
     private void PlayIntro()
     {
-        Character mihu = characterManager.GetCharacter("Mihu Kashino");
-
-        sceneManager.RunScene(new IntroScene(mihu, dialogueManager));
+        context.Scenes.RunScene(new IntroScene(context));
     }
 
     private void ChooseRoommate()
     {
-        RoommateSelectionScene scene =
-            new RoommateSelectionScene(characterManager, player);
-
-        sceneManager.RunScene(scene);
+        context.Scenes.RunScene(new RoommateSelectionScene(context));
     }
 
     private void GameLoop()
@@ -59,7 +59,7 @@ public class Game
             switch (choice)
             {
                 case "1":
-                    sceneManager.RunScene(new StudyScene(player));
+                    context.Scenes.RunScene(new StudyScene(context));
                     AdvanceTime();
                     break;
 
@@ -90,8 +90,8 @@ public class Game
 
     private void Work()
     {
-        player.Money += 20;
-        player.Entropy -= 10;
+        context.Player.Money += 20;
+        context.Player.Entropy -= 10;
 
         Console.WriteLine("You worked.");
 
@@ -100,7 +100,7 @@ public class Game
 
     private void Socialize()
     {
-        player.Entropy += 15;
+        context.Player.Entropy += 15;
 
         Console.WriteLine("You socialized.");
 
@@ -109,14 +109,14 @@ public class Game
 
     private void Sleep()
     {
-        player.Entropy += 10;
+        context.Player.Entropy += 10;
 
-        if (player.Entropy > 100)
-            player.Entropy = 100;
+        if (context.Player.Entropy > 100)
+            context.Player.Entropy = 100;
 
         Console.WriteLine("You slept.");
 
-        while (player.Time != TimeOfDay.Morning)
+        while (context.Player.Time != TimeOfDay.Morning)
         {
             AdvanceTime();
         }
@@ -134,40 +134,40 @@ public class Game
     private void ShowStats()
     {
         Console.WriteLine();
-        Console.WriteLine($"Academic: {player.Academic}");
-        Console.WriteLine($"Entropy: {player.Entropy}");
-        Console.WriteLine($"Money: {player.Money}");
-        Console.WriteLine($"Day: {player.Day}");
-        Console.WriteLine($"Time: {player.Time}");
+        Console.WriteLine($"Academic: {context.Player.Academic}");
+        Console.WriteLine($"Entropy: {context.Player.Entropy}");
+        Console.WriteLine($"Money: {context.Player.Money}");
+        Console.WriteLine($"Day: {context.Player.Day}");
+        Console.WriteLine($"Time: {context.Player.Time}");
     }
 
     private void ShowDayHeader()
     {
         Console.WriteLine("\n====================");
-        Console.WriteLine($"DAY {player.Day}");
-        Console.WriteLine(player.Time);
+        Console.WriteLine($"DAY {context.Player.Day}");
+        Console.WriteLine(context.Player.Time);
         Console.WriteLine("====================");
     }
 
     private void AdvanceTime()
     {
-        switch (player.Time)
+        switch (context.Player.Time)
         {
             case TimeOfDay.Morning:
-                player.Time = TimeOfDay.Afternoon;
+                context.Player.Time = TimeOfDay.Afternoon;
                 break;
 
             case TimeOfDay.Afternoon:
-                player.Time = TimeOfDay.Evening;
+                context.Player.Time = TimeOfDay.Evening;
                 break;
 
             case TimeOfDay.Evening:
-                player.Time = TimeOfDay.Night;
+                context.Player.Time = TimeOfDay.Night;
                 break;
 
             case TimeOfDay.Night:
-                player.Time = TimeOfDay.Morning;
-                player.Day++;
+                context.Player.Time = TimeOfDay.Morning;
+                context.Player.Day++;
                 break;
         }
     }
