@@ -9,7 +9,7 @@ public class RoommateSelectionScene : IScene
         this.player = player;
     }
 
-    public IScene Run()
+    public SceneResult Run()
     {
         Console.WriteLine("Choose your roommate:");
 
@@ -25,12 +25,14 @@ public class RoommateSelectionScene : IScene
         Character selected = characters[choice];
 
         selected.isRoomate = true;
-
         player.RoommateChoice = selected.Type;
         player.ActiveRoute = selected.Type;
 
         Console.WriteLine($"You chose: {selected.Name}");
 
-        return null;
+        return new SceneResult
+        {
+            NextScene = null
+        };
     }
 }

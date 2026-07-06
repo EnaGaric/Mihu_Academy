@@ -3,9 +3,11 @@ using System;
 public class Game
 {
     private Player player = new Player();
+
     private CharacterManager characterManager = new CharacterManager();
     private SceneManager sceneManager = new SceneManager();
-
+    private DialogueManager dialogueManager = new DialogueManager();
+    private RelationshipManager relationshipManager = new RelationshipManager();
     private bool isRunning = true;
 
     public void Start()
@@ -13,6 +15,9 @@ public class Game
         Console.WriteLine("Welcome to the Academy!");
 
         CreatePlayer();
+
+        PlayIntro();
+
         ChooseRoommate();
 
         GameLoop();
@@ -26,12 +31,19 @@ public class Game
         Console.WriteLine($"Welcome, {player.Name}!");
     }
 
+    private void PlayIntro()
+    {
+        Character mihu = characterManager.GetCharacter("Mihu Kashino");
+
+        sceneManager.RunScene(new IntroScene(mihu, dialogueManager));
+    }
+
     private void ChooseRoommate()
     {
-    RoommateSelectionScene scene =
-        new RoommateSelectionScene(characterManager, player);
+        RoommateSelectionScene scene =
+            new RoommateSelectionScene(characterManager, player);
 
-    sceneManager.RunScene(scene);
+        sceneManager.RunScene(scene);
     }
 
     private void GameLoop()
@@ -48,6 +60,7 @@ public class Game
             {
                 case "1":
                     sceneManager.RunScene(new StudyScene(player));
+                    AdvanceTime();
                     break;
 
                 case "2":
@@ -81,6 +94,8 @@ public class Game
         player.Entropy -= 10;
 
         Console.WriteLine("You worked.");
+
+        AdvanceTime();
     }
 
     private void Socialize()
@@ -88,6 +103,8 @@ public class Game
         player.Entropy += 15;
 
         Console.WriteLine("You socialized.");
+
+        AdvanceTime();
     }
 
     private void Sleep()
@@ -97,9 +114,12 @@ public class Game
         if (player.Entropy > 100)
             player.Entropy = 100;
 
-        player.Day++;
-
         Console.WriteLine("You slept.");
+
+        while (player.Time != TimeOfDay.Morning)
+        {
+            AdvanceTime();
+        }
     }
 
     private void ShowMenu()
@@ -118,12 +138,37 @@ public class Game
         Console.WriteLine($"Entropy: {player.Entropy}");
         Console.WriteLine($"Money: {player.Money}");
         Console.WriteLine($"Day: {player.Day}");
+        Console.WriteLine($"Time: {player.Time}");
     }
 
     private void ShowDayHeader()
     {
         Console.WriteLine("\n====================");
         Console.WriteLine($"DAY {player.Day}");
+        Console.WriteLine(player.Time);
         Console.WriteLine("====================");
+    }
+
+    private void AdvanceTime()
+    {
+        switch (player.Time)
+        {
+            case TimeOfDay.Morning:
+                player.Time = TimeOfDay.Afternoon;
+                break;
+
+            case TimeOfDay.Afternoon:
+                player.Time = TimeOfDay.Evening;
+                break;
+
+            case TimeOfDay.Evening:
+                player.Time = TimeOfDay.Night;
+                break;
+
+            case TimeOfDay.Night:
+                player.Time = TimeOfDay.Morning;
+                player.Day++;
+                break;
+        }
     }
 }

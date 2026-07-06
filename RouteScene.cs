@@ -1,3 +1,5 @@
+using System;
+
 public abstract class RouteScene : IScene
 {
     protected Player player;
@@ -8,9 +10,7 @@ public abstract class RouteScene : IScene
     }
 
     protected bool IsRoute(CharacterType type)
-    {
-        return player.ActiveRoute == type;
-    }
+        => player.ActiveRoute == type;
 
-    public abstract IScene Run();
+    public abstract SceneResult Run();
 }

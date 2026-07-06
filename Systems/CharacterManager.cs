@@ -69,7 +69,7 @@ public class CharacterManager
         return list[index];
     }
 
-    public Character GetCharacter(string name)
+    public Character? GetCharacter(string name)
     {
         return characters.Find(c => c.Name == name);
     }

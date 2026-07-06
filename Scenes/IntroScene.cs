@@ -1,3 +1,5 @@
+using System;
+
 public class IntroScene : IScene
 {
     private Character mihu;
@@ -9,7 +11,7 @@ public class IntroScene : IScene
         this.dialogueManager = dialogueManager;
     }
 
-    public IScene Run()
+    public SceneResult Run()
     {
         Dialogue dialogue = new Dialogue();
 
@@ -24,6 +26,9 @@ public class IntroScene : IScene
 
         dialogueManager.Play(dialogue);
 
-        return null; // ili next scene kasnije
+        return new SceneResult
+        {
+            NextScene = null
+        };
     }
 }

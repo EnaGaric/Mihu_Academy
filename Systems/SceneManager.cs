@@ -2,8 +2,18 @@ using System;
 
 public class SceneManager
 {
-    public int RunScene(IScene scene)
+    public void RunScene(IScene startScene)
     {
-        return scene.Run();
+        IScene? current = startScene;
+
+        while (current != null)
+        {
+            SceneResult result = current.Run();
+
+            if (result.EndGame)
+                break;
+
+            current = result.NextScene;
+        }
     }
 }
